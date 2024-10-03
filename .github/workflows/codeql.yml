@@ -22,7 +22,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: 'java'  # Adjust this based on your project's main languages
+          languages: java-kotlin  # Adjust this based on your project's main languages
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
