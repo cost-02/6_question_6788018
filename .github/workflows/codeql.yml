@@ -30,7 +30,7 @@ jobs:
           echo '{"schema": "https://sarifweb.azurewebsites.net/schemas/sarif-schema-2.1.0.json", "version": "2.1.0", "runs": []}' > results.sarif
 
       - name: Upload SARIF file as an artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: SARIF-Artifact
           path: results.sarif
