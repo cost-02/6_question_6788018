@@ -1,13 +1,14 @@
-name: Analyze and Upload SARIF
+name: "CodeQL"
 
 on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '45 15 * * 4'
+    - cron: '0 14 * * 3'  # Weekly at 14:00 on Wednesday
 
 jobs:
-  analyze-and-upload:
+  analyze:
+    name: Analyze
     runs-on: ubuntu-latest
     permissions:
       security-events: write
@@ -18,19 +19,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Analysis Tool
-        run: |
-          echo "Install your analysis tool here"
-          # For example, sudo apt-get install your-tool
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: 'java'  # Adjust this based on your project's main languages
 
-      - name: Generate SARIF file
-        run: |
-          echo "Running analysis tool to generate SARIF"
-          # Substitute the following command with your actual command to generate SARIF
-          echo '{"schema": "https://sarifweb.azurewebsites.net/schemas/sarif-schema-2.1.0.json", "version": "2.1.0", "runs": []}' > results.sarif
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          output: codeql-results.sarif  # This specifies the path where the SARIF file will be saved
 
       - name: Upload SARIF file as an artifact
         uses: actions/upload-artifact@v3
         with:
-          name: SARIF-Artifact
-          path: results.sarif
+          name: codeql-sarif
+          path: codeql-results.sarif
